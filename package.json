@@ -1,0 +1,26 @@
+{
+  "name": "expense-api",
+  "version": "1.0.0",
+  "description": "API for react app to allow expense creation and store",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev" : "nodemon server"
+  },
+  "keywords": [
+    "express",
+    "javascript",
+    "mongoose"
+  ],
+  "author": "Robert Perez",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "config": "^3.2.6",
+    "express": "^4.17.1",
+    "express-validator": "^6.4.0",
+    "mongoose": "^5.9.2"
+  }
+}
