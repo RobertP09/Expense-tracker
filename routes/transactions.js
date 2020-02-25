@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth');
+const Transaction = require('../models/Transaction');
 
 // @route    GET api/transactions
 // @desc     Get a transaction
@@ -12,7 +14,25 @@ router.get('/', auth, async (req, res) => {
 // @desc     Submit a transaction
 // @access   Private
 router.post('/', auth, async (req, res) => {
-    res.json('In Transactions');
+
+    const { name, amount, amountType} = req.body;
+
+    try {
+        const newTransaction = new Transaction({
+            name,
+            amount,
+            amountType,
+            user: req.user.id
+        });
+
+        const transaction = await newTransaction.save();
+
+        res.json(transaction);
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
 });
 
 // @route    PUT api/transactions/:id
@@ -34,6 +54,10 @@ router.delete('/:id', auth, async (req, res) => {
         if(transactino.user.toString() !== req.user.id) {
             return res.status(401).json({ msg: "Not authorized to delete selected transaction"});
         }
+
+        await Transaction.findByIdAndRemove(req.params.id);
+
+        res.json({ msg: "Transaction Deleted"})
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');

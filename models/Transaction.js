@@ -13,7 +13,6 @@ const TransactionSchema = mongoose.Schema({
     },
     amountType: {
         type: String,
-        required: true
     },
     date: {
         type: Date,
